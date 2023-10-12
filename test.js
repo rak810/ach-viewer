@@ -74,12 +74,16 @@ function renderBatches(batches) {
         fileDetails.querySelector('#addendaCount').textContent = `(${batches[i].addenda.length})`;
         const addendaList = fileDetails.querySelector('#addendaList');
         if(batches[i].addenda.length > 0) {
+            addendaList.classList.remove('hidden');
+            fileDetails.querySelector('#noAddenda').classList.add('hidden');
             batches[i].addenda.forEach((adInfo) => {
+                console.log(adInfo);
                 addendaList.innerHTML += `<li>${adInfo.paymentRelatedInformation}</li>`
             })
         }
         else {
-            fileDetails.querySelector('#addendaDiv').innerHTML = '<p class="font-semibold">No addenda available</p>'
+            fileDetails.querySelector('#noAddenda').classList.remove('hidden');
+            addendaList.classList.add('hidden');
         }
         // fileDetails.querySelector('#transactionType').textContent = batches[i].entry.transactionCode;
         // fileDetails.querySelector('#trace').textContent = batches[i].entry.traceNumber;
