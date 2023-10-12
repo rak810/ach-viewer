@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./output.css" rel="stylesheet">
+    <title>NACHA Batch Display</title>
+</head>
+<body class="bg-gray-100 p-6">
+    <div class="bg-white rounded p-8 shadow-lg max-w-4xl mx-auto">
+        <h1 class="text-2xl font-semibold mb-4">ACH Viewer</h1>
+
+        <!-- File Upload Section -->
+        <div class="mb-4">
+            <h2 class="text-lg font-semibold mb-2">Upload ACH File</h2>
+            <div class="flex items-center space-x-2">
+                <input type="file" id="achFile" class="border rounded p-2 flex-grow">
+                <button id="viewBtn" class="bg-blue-500 text-white p-2 rounded">Upload</button>
+            </div>
+        </div>
+        <div class="mb-4 hidden" id="fileInfos">
+            <h1 class="text-xl font-semibold mb-4">File Information</h1>
+            <!-- Row 1 -->
+            <div class="grid grid-rows-3 grid-cols-4 gap-0 ml-8 border-2 border-gray-300">
+                <div class="col-span-2 border-2 border-gray-300">
+                    <p >
+                        <strong>File Creation Date and Time: </strong>
+                        <span id="fileCreationDate">2023/10/20</span>
+                    </p>
+                </div>
+                <div class="col-span-2 border-2 border-gray-300">
+                    <p >
+                        <strong>Entry Hash: </strong>
+                        <span id="entryHash">1000</span>
+                    </p>
+                </div>
+                <div class="col-span-2 border-2 border-gray-300">
+                    <p >
+                        <strong>Immediate Origin: </strong>
+                        <span id="immOrigin">MarginEdge</span>
+                    </p>
+                </div>
+                <div class="col-span-2 border-2 border-gray-300">
+                    <p >
+                        <strong>Immediate Destination: </strong>
+                        <span id="immDest">Immediate</span>
+                    </p>
+                </div>
+
+                <div class="col-span-1 border-2 border-gray-300">
+                    <p ><strong>Batch Count:</strong> <span id="batchCountTotal">10</span></p>
+                </div>
+                <div class="col-span-1 border-2 border-gray-300">
+                    <p ><strong>Block Count:</strong><span id="blockCount">10</span></p>
+                </div>
+                <div class="col-span-2 border-2 border-gray-300">
+                    <p ><strong>Entry/Addenda Count:</strong><span id="entryCount">10</span></p>
+                </div>
+
+                <div class="col-span-2 border-2 border-gray-300">
+                    <p ><strong>Total Debit Amount:</strong><span id="fileDebit">100.00</span></p>
+                </div>
+                <div class="col-span-2 border-2 border-gray-300">
+                    <p ><strong>Total Credit Amount:</strong><span id="fileCredit">100.00</span></p>
+                </div>
+            </div>
+        </div>
+        <!-- Header Row -->
+        <div class="mb-4 hidden" id="batchInfos">
+
+        </div>
+
+
+    </div>
+
+    <div class="bg-blue-100 h-10 pt-2 pl-2 rounded shadow-lg hidden collapsible" id="collapsibleTemplate">
+    </div>
+    <div class="hidden mb-4" id="fileDetails">
+        <div class="grid grid-rows-3 grid-cols-4 gap-0 ml-0 border-2 border-gray-300">
+            <div class="col-span-1 border-2 border-gray-300">
+                <p class="text-gray-600">Batch Number: <span class="font-semibold" id="batchNo">1</span></p>
+            </div>
+            <div class="col-span-2 border-2 border-gray-300">
+                <p class="text-gray-600">Entry Type: <span class="font-semibold" id="entryType">123456789</span></p>
+            </div>
+            <div class="col-span-1 border-2 border-gray-300">
+                <p class="text-gray-600">Entry Class: <span class="font-semibold" id="entryClass">CCD</span></p>
+            </div>
+
+            <div class="col-span-2 border-2 border-gray-300">
+                <p class="text-gray-600">Company Name: <span class="font-semibold" id="companyName">MarginEdge</span></p>
+            </div>
+            <div class="col-span-2 border-2 border-gray-300">
+                <p class="text-gray-600">Financial Institute: <span class="font-semibold" id="finInstitute">Wells Fargo</span></p>
+            </div>
+            <div class="col-span-3 border-2 border-gray-300">
+                <p class="text-gray-600">Description: <span class="font-semibold" id="description">qwertyuonfgdgddfgfgdfgfgdgg</span></p>
+            </div>
+            <div class="col-span-1 border-2 border-gray-300">
+                <p class="text-gray-600">Date: <span class="font-semibold" id="companyDate">2023/10/11</span></p>
+            </div>
+            <div class="col-span-2 border-2 border-gray-300">
+                <p class="text-gray-600">Total Debit Amount: <span class="font-semibold" id="batchDebit">1225.00</span></p>
+            </div>
+            <div class="col-span-2 border-2 border-gray-300">
+                <p class="text-gray-600">Total Credit Amount: <span class="font-semibold" id="batchCredit">00.00</span></p>
+            </div>
+        </div>
+        <!-- Entry Detail Row -->
+        <div class="mb-4 mt-4 ml-0">
+            <h2 class="text-xl font-semibold mb-2">Entries</h2>
+            <table class="table-auto border mx-auto">
+                <thead class="border bg-gray-300">
+                    <th class="border p-2">Transaction Type</th>
+                    <th class="border p-2">Trace</th>
+                    <th class="border p-2">Receiver</th>
+                    <th class="border p-2">Account No.</th>
+                    <th class="border p-2">Institute</th>
+                    <th class="border p-2">Amount</th>
+                </thead>
+                <tbody id="tableBody" class="border text-center">
+                </tbody>
+            </table>
+            <!-- <div class="grid grid-rows-3 grid-cols-4 gap-0 border-2 border-gray-300">
+                <div class="col-span-3 border-2 border-gray-300">
+                    <p><strong>Transaction Type: </strong> <span id="transactionType"></span></p>
+                </div>
+                <div class="col-span-1 border-2 border-gray-300">
+                    <p><strong>Trace: </strong> <span id="trace"></span></p>
+                </div>
+                <div class="col-span-2 border-2 border-gray-300">
+                    <p><strong>Receiver Name: </strong> <span id="receiver"></span></p>
+                </div>
+                <div class="col-span-2 border-2 border-gray-300">
+                    <p><strong>Receiver Account Number: </strong> <span id="receiveAccountNumber"></span></p>
+                </div>
+                <div class="col-span-2 border-2 border-gray-300">
+                    <p><strong>Receiver Institute: </strong> <span id="receiverRN"></span></p>
+                </div>
+                <div class="col-span-2 border-2 border-gray-300">
+                    <p><strong>Amount: </strong> <span id="entryAmount"></span></p>
+                </div>
+            </div> -->
+        </div>
+        <!-- Addenda Row -->
+        <div class="ml-0">
+            <h2 class="text-xl font-semibold mb-2">Addenda <span id="addendaCount"></span></h2>
+            <div class="ml-8" id="addendaDiv">
+                <ul class="list-disc" id="addendaList">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script src="test.js"></script>
+</body>
+</html>
