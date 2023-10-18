@@ -66,7 +66,7 @@ function renderBatches(batches) {
             tbody.innerHTML += `<tr class="even:bg-gray-100 odd:bg-white"><td class="border p-2">${getTransactionCodeDescription(entry.transactionCode)}</td>
             <td class="border p-2">${entry.traceNumber}</td>
             <td class="border p-2">${entry.receivingCompanyName}</td>
-            <td class="border p-2">${entry.receivingCompanyName}</td>
+            <td class="border p-2">${entry.dfiAccountNumber}</td>
             <td class="border p-2">${entry.receivingDFIIdentification}</td>
             <td class="border p-2">$${entry.amount}</td>
             </tr>`;
